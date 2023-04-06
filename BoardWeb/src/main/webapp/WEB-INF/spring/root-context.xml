@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Namespace에서 context 체크 후 context:component-scan이용 -->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 스프링에서 관리하는 객체 : bean(클래스->인스턴스) -->
+	<!-- Connection Pool 객체(를 사용하기 위한): DB 접속정보 가지고 있는 객체 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+				  <!-- name값들은 고정. 바꾸면 안 됨 -->
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@43.201.27.199:1521:xe"></property> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@43.201.27.199:1521:xe"></property>
+		<property name="username" value="book_ex"></property>
+		<property name="password" value="book_ex"></property>
+	</bean>
+	
+	<!-- Connection 객체 생성 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	  <constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+	
+	<!-- mybatis: SqlSession <- SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<mybatis-spring:scan base-package="com.yedam.board.persistence"/>
+	<context:component-scan base-package="com.yedam.board.service"/>
+	
+</beans>
