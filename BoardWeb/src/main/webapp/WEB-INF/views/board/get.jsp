@@ -4,6 +4,13 @@
 
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="page-header">Board Read</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Board Read Page
@@ -27,7 +34,16 @@
                 	  <textarea class="form-control" name="content">${board.content }</textarea>
                 	</div>
                 	<button data-oper="modify" class="btn btn-default">Modify</button> <!-- data-oper라는 attribute 추가 -->
-                	<button data-oper="list" onclick="location.href='list'" class="btn btn-default">List</button>
+                	<button data-oper="list" class="btn btn-default">List</button>
+                	
+                	<form id="operForm" action="/board/modify" method="get">
+                	  <input type="hidden" id="bno" name="bno" value="${board.bno }">
+                	  <input type="hidden" name="pageNum" value="${cri.pageNum }">
+                	  <input type="hidden" name="amount" value="${cri.amount }">
+					  <input type="hidden" name="type" value="${cri.type }">
+					  <input type="hidden" name="keyword" value="${cri.keyword }">
+				</form>
+                	</form>
             </div>
             <!-- /.panel-body -->
         </div>
@@ -36,5 +52,18 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+<script>
+  $(document).ready(function(){
+	  var operForm = $('#operForm');
+	  $('button[data-oper="modify"]').on('click', function(){
+		  operForm.attr('action', '/board/modify').submit();
+	  })
+	  $('button[data-oper="list"]').on('click', function(){
+		  operForm.find('#bno').remove(); // 목록이동일 경우 parameter 필요 없음.
+		  operForm.attr('action', '/board/list');
+		  operForm.submit();
+	  })
+  })
+</script>
 
 <jsp:include page="../includes/footer.jsp"></jsp:include>

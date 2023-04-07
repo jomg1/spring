@@ -5,8 +5,46 @@
   
 <mapper namespace="com.yedam.board.persistence.BoardMapper">
 
+  <sql id="criteria">
+    <trim prefix="(" suffix=") and " prefixOverrides="or"> <!-- 중복된 부분이 있으면 제거하는 구문  prefixOverrides-->
+	<foreach collection="typeArr" item="type">
+	  <trim prefix=" or ">
+	  <choose>
+	    <when test="type == 'T'.toString()"> <!-- toString : Java에서는 ''가 character 타입이기 때문 -->
+	      title like '%'||#{keyword}||'%'
+	    </when>
+	    <when test="type == 'C'.toString()">
+	      content like '%'||#{keyword}||'%'
+	    </when>
+	    <when test="type == 'W'.toString()">
+	      writer like '%'||#{keyword}||'%'
+	    </when>
+	  </choose>
+	  </trim>
+	</foreach>	    
+	</trim>  
+  </sql>
+  
   <select id="getList" resultType="com.yedam.board.domain.BoardVO">
     select * from tbl_board where bno>0
+  </select>
+  
+  <!-- <=등호를 태그로 인식하지 않게 하기 위해 CDATA 붙여줌 -->
+  <select id="getListWithPaging" resultType="com.yedam.board.domain.BoardVO"
+  								 parameterType="com.yedam.board.domain.Criteria">
+  	<![CDATA[
+    	select bno, title, writer, content, regdate, updatedate
+		from (select /*+ INDEX_DESC(tbl_board pk_board) */
+		             rownum rn, bno, title, writer, content, regdate, updatedate
+		      from tbl_board
+		      where 
+	  ]]>
+	<include refid="criteria"></include><!-- 위에 선언한 sql id를 넣어줌 -->
+	<![CDATA[
+		      rownum <= #{pageNum} * #{amount}
+		      )
+		where rn > (#{pageNum} - 1) * #{amount}
+		]]>
   </select>
   
   <insert id="insertSelectKey" parameterType="com.yedam.board.domain.BoardVO">
@@ -27,8 +65,14 @@
   
   <update id="update" parameterType="com.yedam.board.domain.BoardVO">
     update tbl_board
-    set  title = #{title}, content = #{content}
+    set  title = #{title}, content = #{content}, updatedate = sysdate
     where bno = #{bno}
   </update>
+  
+  <select id="getTotalCount" resultType="int">
+  	select count(*) from tbl_board where 
+  	<include refid="criteria"></include>
+  	bno > 0
+  </select>
   
 </mapper>
