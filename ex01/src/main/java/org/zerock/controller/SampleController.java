@@ -93,6 +93,7 @@ public class SampleController {
 	@GetMapping("ex04")
 	//SampleDTO(자바 객체)를 json포맷으로 넘겨주겠다는 뜻
 	//요청 url, 매개변수, 반환되는 값
+	//ex04 요청하면 반환되는 타입이 smapleDTO, 이걸 실행하면 json 타입으로 생성해주는 것이 @ResponseBody
 	public @ResponseBody SampleDTO ex04() {
 		SampleDTO dto = new SampleDTO();
 		dto.setAge(10);
