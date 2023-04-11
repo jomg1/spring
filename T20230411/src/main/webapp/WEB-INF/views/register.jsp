@@ -24,7 +24,6 @@
 			<h2 style="text-align: left">도서대여</h2>
 		<form role="form" action="/register" method="post">
 			<div class="form-group">
-				<label>도서번호</label> <input class="form-control" type="text" name="bookNo" readonly>
 			</div>
 			<div class="form-group">
 				<label>도서명</label> <input class="form-control" type="text" name="bookName">
