@@ -3,6 +3,7 @@ package com.yedam.board.service;
 import java.util.List;
 
 import com.yedam.board.domain.Criteria;
+import com.yedam.board.domain.ReplyPageDTO;
 import com.yedam.board.domain.ReplyVO;
 
 public interface ReplyService {
@@ -11,5 +12,6 @@ public interface ReplyService {
 	public int modify(ReplyVO vo); // 수정
 	public int remove(Long rno); //삭제
 	public List<ReplyVO> getList(Long bno, Criteria cri); // 댓글 목록
+	public ReplyPageDTO getListPage(Criteria cri, Long bno);
 
 }
