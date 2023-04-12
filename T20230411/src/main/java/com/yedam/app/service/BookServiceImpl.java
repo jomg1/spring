@@ -23,4 +23,9 @@ public class BookServiceImpl implements BookService {
 		
 	}
 
+	@Override
+	public int bookNoNext() {
+		return bookMapper.bookNoNext();		
+	}
+
 }

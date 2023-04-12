@@ -2,6 +2,7 @@ package com.yedam.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,13 +31,15 @@ public class BookController {
 	public String register(BookVO book, RedirectAttributes rttr) {
 		bookService.register(book);
 		rttr.addFlashAttribute("result", book.getBookNo());
-		
 		return "redirect:/register";
 	}
 	
 	@GetMapping("/register")
-	public void register() {
+	public void register(Model model) {
 		// 등록 화면
+		int next = bookService.bookNoNext();
+		System.out.println(next);
+		model.addAttribute("bookNo", next);
 	}
 	
 	

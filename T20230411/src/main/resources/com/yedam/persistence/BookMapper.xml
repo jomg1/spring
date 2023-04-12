@@ -10,4 +10,8 @@
     values (seq_book.nextval, #{bookName}, #{bookCoverimg}, #{bookDate}, #{bookPrice}, #{bookPublisher}, #{bookInfo})
   </insert>
   
+  <select id="bookNoNext" resultType="int">
+  	select seq_book.nextval from dual
+  </select>
+  
 </mapper>

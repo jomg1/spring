@@ -17,13 +17,16 @@
 				<li><a href="">도서 등록</a></li>
 				<li><a href="">도서 조회/수정</a></li>
 				<li><a href="">대여현황조회</a></li>
-				<li><a href="/index">홈으로</a></li>
+				<li><a href="">홈으로</a></li>
 			</ul>
 		</nav>
 		<section>
-			<h2 style="text-align: left">도서대여</h2>
-		<form role="form" action="/register" method="post">
+			<h2 style="text-align: left">도서등록</h2>
+		<form role="form" action="register" method="post">
 			<div class="form-group">
+			</div>
+			<div class="form-group">
+				<label>도서번호</label> <input class="form-control" type="text" name="bookNo" value="${bookNo }">
 			</div>
 			<div class="form-group">
 				<label>도서명</label> <input class="form-control" type="text" name="bookName">
